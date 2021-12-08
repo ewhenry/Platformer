@@ -1,4 +1,5 @@
 var GRAVITY = 10;
+var JUMP = 15;
 
 var Level_W = 10000;
 var Level_H = 400;
@@ -13,7 +14,7 @@ function setup() {
 
   player = createSprite(400, 200);
   player.addAnimation('normal', 'assets/asterisk_normal0001.png', 'assets/asterisk_normal0003.png');
-  player.addAnimation('stretch', 'assets/asterisk_stretching0001.png', 'assets/asterisk_stretching0008.png');
+  //player.addAnimation('stretch', 'assets/asterisk_stretching0001.png', 'assets/asterisk_stretching0008.png');
   
 }
 
