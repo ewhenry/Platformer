@@ -66,10 +66,21 @@ class Player {
 }
 
 class Platform {
-  render(x, y) {
-    platform = createSprite(x, y);
-    platform.addAnimation('normal', 'assets/small_platform0001.png', 'assets/small_platform0003.png');
+  render(x, y, v, m) {
+    if (m == false) {
+      platform = createSprite(x, y);
+      platform.addAnimation('normal', 'assets/small_platform0001.png', 'assets/small_platform0003.png');
+    } else {
+      platform = createSprite(x, y);
+      platform.addAnimation('normal', 'assets/small_platform0001.png', 'assets/small_platform0003.png');
+      if (platform.position.x > Level_W) {
+        platform.velocity.x = -10;
+      } else if (platform.position.x < 0) {
+        platform.velocity.x = 10;
+      }
 
+      
+    }
     //platform.life = 1*(10000-y) + 600;
     platforms.add(platform);
   }
@@ -118,9 +129,9 @@ function setup() {
   platforms = new Group();
   //collectibles = new Group();
 
-  plat.render(600,9900);
-  plat.render(100,9800);
-  plat.render(400,9500);
+  plat.render(600,9900, 0, false);
+  plat.render(100,9800, 10, true);
+  plat.render(400,9500, 0, false);
 
   camera.zoom = 0.5;
 }
