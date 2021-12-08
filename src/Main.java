@@ -6,8 +6,8 @@ import processing.core.PApplet;
 
 public class Main extends PApplet {
 
-    public final static int WIDTH = 650;
-    public final static int HEIGHT = 500;
+    private final static int WIDTH = 650;
+    private final static int HEIGHT = 500;
 
     Player p;
 
