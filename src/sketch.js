@@ -75,18 +75,19 @@ class Platform {
 
 class Map {
   DrawMap() {
-    for (var x = -70; x < 5000; x += 70) {
-      tile_sprite_sheet.drawFrame('stone.png', x, 450);
-      for (var y = 515; y < 800; y += 70) {
-        tile_sprite_sheet.drawFrame('stoneCenter.png', x, y);
-      }
-    }
     for (var x = -1000; x < -90; x += 70) {
       for (var y = 0; y < 800; y += 70) {
         tile_sprite_sheet.drawFrame('stoneCenter.png', x, y);
       }
       for(var y = 0; y < 70; y += 70) {
         tile_sprite_sheet.drawFrame('stone.png', x, y); 
+      }
+    }
+
+    for (var x = -140; x < 5000; x += 70) {
+      tile_sprite_sheet.drawFrame('stone.png', x, 450);
+      for (var y = 515; y < 800; y += 70) {
+        tile_sprite_sheet.drawFrame('stoneCenter.png', x, y);
       }
     }
   }
