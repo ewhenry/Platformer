@@ -1,5 +1,5 @@
-var GRAVITY = 1;
-var JUMP = 20;
+var GRAVITY = 1.5;
+var JUMP = 25;
 
 var Level_W = 800;
 var Level_H = 10000;
@@ -30,7 +30,7 @@ class Player {
     player.velocity.y += GRAVITY;
 
     if (keyDown('UP') || keyWentDown('SPACE')) {
-      if (player.collide(platforms) || player.position.y >= Level_H) {
+      if ((player.collide(platforms) && player.position.y >= platforms) || player.position.y >= Level_H) {
         player.changeAnimation('stretch');
         player.animation.rewind();
         player.velocity.y = -JUMP;
@@ -51,14 +51,14 @@ class Player {
       player.velocity.x = 0;
     }
 
-    if (player.position.x < 0) {
-      player.position.x = 0;
+    if (player.position.x < 35) {
+      player.position.x = 35;
     }
     if (player.position.y < 0) {
       player.position.y = 0;
     }
-    if (player.position.x > Level_W) {
-      player.position.x = Level_W;
+    if (player.position.x > Level_W-55) {
+      player.position.x = Level_W-55;
     }
   }
   decompose() {
@@ -70,6 +70,7 @@ class Platform {
     platform = createSprite(x, y);
     platform.addAnimation('normal', 'assets/small_platform0001.png', 'assets/small_platform0003.png');
 
+    //platform.life = 1*(10000-y) + 600;
     platforms.add(platform);
   }
 }
@@ -117,9 +118,9 @@ function setup() {
   platforms = new Group();
   //collectibles = new Group();
 
-  plat.render(600,10000);
-  plat.render(200,9800);
-  plat.render(400,9600);
+  plat.render(600,9900);
+  plat.render(100,9800);
+  plat.render(400,9500);
 
   camera.zoom = 0.5;
 }
