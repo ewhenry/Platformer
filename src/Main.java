@@ -16,7 +16,6 @@ public class Main extends PApplet {
 	  }
 
     public void setup() {
-        print(RIGHT);
         rectMode(CENTER);
         p = new Player(this, WIDTH/2, HEIGHT/2);
     }
