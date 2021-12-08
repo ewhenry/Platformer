@@ -1,0 +1,14 @@
+body {
+    background-color: rgb(36, 53, 71);
+
+    margin: 0;
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding-top: 5%;
+
+    border-color: aliceblue;
+}
