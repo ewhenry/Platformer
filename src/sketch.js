@@ -30,7 +30,7 @@ class Player {
     player.velocity.y += GRAVITY;
 
     if (keyDown('UP') || keyWentDown('SPACE')) {
-      if ((player.collide(platforms) && player.position.y >= platforms) || player.position.y >= Level_H) {
+      if (player.collide(platforms) || player.position.y >= Level_H) {
         player.changeAnimation('stretch');
         player.animation.rewind();
         player.velocity.y = -JUMP;
