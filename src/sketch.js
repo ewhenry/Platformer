@@ -73,16 +73,24 @@ class Platform {
     } else {
       platform = createSprite(x, y);
       platform.addAnimation('normal', 'assets/small_platform0001.png', 'assets/small_platform0003.png');
-      if (platform.position.x > Level_W) {
-        platform.velocity.x = -10;
-      } else if (platform.position.x < 0) {
-        platform.velocity.x = 10;
-      }
 
-      
+      platform.setSpeed(v);
     }
+
     //platform.life = 1*(10000-y) + 600;
     platforms.add(platform);
+  }
+
+  moving() {
+    if (platform.position.x < 0) {
+      platform.position.x = 1;
+      platform.velocity.x = abs(platform.velocity.x);
+    }
+
+    if (platform.position.x > Level_W) {
+      platform.position.x = Level_W-1;
+      platform.velocity.x = -abs(platform.velocity.x);
+    }
   }
 }
 
@@ -121,7 +129,7 @@ let plat = new Platform();
 let m = new Map();
 
 function setup() {
-  createCanvas(800,400);
+  createCanvas(500,700);
 
   //200
   p.render(400,10000);
@@ -130,7 +138,7 @@ function setup() {
   //collectibles = new Group();
 
   plat.render(600,9900, 0, false);
-  plat.render(100,9800, 10, true);
+  plat.render(200,9800, 10, true);
   plat.render(400,9500, 0, false);
 
   camera.zoom = 0.5;
@@ -142,6 +150,8 @@ function draw() {
 
   p.movement();
   m.DrawMap();
+
+  plat.moving();
 
 
   //console.log("PlayerXpos",player.position.x);
