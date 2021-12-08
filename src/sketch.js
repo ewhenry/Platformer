@@ -6,47 +6,52 @@ var Level_H = 10000;
 
 var player, ground, platform;
 
+var face;
+
 var playerImg, BGImg, platfromImg, groundImg;
 
-//IF TIME TRY THESE:
-//https://molleindustria.github.io/p5.play/examples/index.html?fileName=sprite9.js
-//
+var Jumps = 0;
 
 function preload() {
   loadJSON('assets/tiles.json', function(tile_frames) {
     tile_sprite_sheet = loadSpriteSheet('assets/tiles_spritesheet.png', tile_frames);
   });
 
+  face = loadImage('assets/face.png');
   
 }
 
 class Player {
   render(x, y) {
     player = createSprite(x, y);
-    player.addAnimation('normal', 'assets/asterisk_normal0001.png', 'assets/asterisk_normal0003.png');
-    player.addAnimation('stretch', 'assets/asterisk_stretching0001.png', 'assets/asterisk_stretching0008.png');
+
+    player.draw = function() {
+      fill(237,205,0);
+
+      push();
+      rotate(radians(this.getDirection()));
+      ellipse(0,0,100+this.getSpeed(), 100-this.getSpeed());
+      pop();
+
+      image(face, this.deltaX*2, this.deltaY*2);
+    }
+
+    player.maxSpeed = 25;
   }
+
   movement() {
     player.velocity.y += GRAVITY;
 
-    if (keyDown('UP') || keyDown('SPACE')) {
-      if (player.collide(platforms) || player.position.y >= Level_H) {
-        player.changeAnimation('stretch');
-        player.animation.rewind();
-        player.velocity.y = -JUMP;
-        if (keyDown('UP') || keyDown('SPACE')) {
-          player.changeAnimation('stretch');
-          player.animation.rewind();
-          player.velocity.y = -JUMP;
-        }
-      }
-    } else if (player.collide(platforms) || player.position.y >= Level_H) {
-        player.velocity.y = 0;
-        player.changeAnimation('normal');
-        if (player.position.y >= Level_H) {
-          player.position.y = Level_H;
-        }
+    if (player.collide(platforms) || player.position.y >= Level_H) {
+      Jumps = 0;
+      player.velocity.y = 0;
     }
+    if (keyWentDown('UP') || keyWentDown('SPACE')) {
+      if (Jumps < 2) {
+        Jumps += 1;
+        player.velocity.y = -JUMP;
+      }
+    } 
 
     if (keyDown('RIGHT')) {
       player.velocity.x = 15;
@@ -62,17 +67,18 @@ class Player {
     if (player.position.y < 0) {
       player.position.y = 0;
     }
+    if (player.position.y > Level_H) {
+      player.position.y = Level_H;
+    }
     if (player.position.x > Level_W-55) {
       player.position.x = Level_W-55;
     }
-  }
-  decompose() {
   }
 }
 
 class Platform {
   render() {
-    for (var i = 0; i < 100; i ++) {
+    for (var i = 1; i < 80; i ++) {
       var y = Level_H - (i * 300);
       var x = (random(0, Level_W));
 
@@ -143,12 +149,10 @@ let m = new Map();
 function setup() {
   createCanvas(500,700);
 
-  //200
   p.render(400,10000);
 
   platforms = new Group();
   platforms_moving = new Group();
-  //collectibles = new Group();
 
   plat.render();
 
@@ -162,11 +166,10 @@ function draw() {
   p.movement();
   m.DrawMap();
 
-  //plat.moving();
-
 
   //console.log("PlayerXpos",player.position.x);
-  //console.log("PlayerYpos",player.position.y);
+  console.log("PlayerYpos",player.position.y);
+  console.log("Jumps", Jumps);
 
 
   camera.position.x = player.position.x;
