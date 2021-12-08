@@ -22,10 +22,8 @@ function setup() {
 
 function draw() {
   background(255,255,255);
-  console.log("PlayerXpos",player.position.x);
+  //console.log("PlayerXpos",player.position.x);
   console.log("PlayerYpos",player.position.y);
-
-  player.velocity.y += GRAVITY;
 
   if (player.collide(platform)) {
     player.velocity.y = 0;
@@ -36,6 +34,20 @@ function draw() {
     player.changeAnimation('stretch');
     player.animation.rewind();
     player.velocity.y = -JUMP;
+  }
+
+  if (keyWentDown('RIGHT')) {
+    player.changeAnimation('stretch');
+    player.animation.rewind();
+    player.position.x += JUMP*2;
+  }
+
+  if (keyWentDown('LEFT')) {
+    player.changeAnimation('stretch');
+    player.animation.rewind();
+    player.position.x -= JUMP*2;
+  } else {
+    player.velocity.y += GRAVITY;
   }
 
   //player.velocity.x = 1000;
@@ -55,6 +67,7 @@ function draw() {
   }
   if (player.position.y > Level_H) {
     player.position.y = Level_H;
+    player.velocity.y = 0;
   }
 
   drawSprites();
