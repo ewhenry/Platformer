@@ -12,6 +12,14 @@ var playerImg, BGImg, platfromImg, groundImg;
 //https://molleindustria.github.io/p5.play/examples/index.html?fileName=sprite9.js
 //
 
+function preload() {
+  loadJSON('assets/tiles.json', function(tile_frames) {
+    tile_sprite_sheet = loadSpriteSheet('assets/tiles_spritesheet.png', tile_frames);
+  });
+
+  
+}
+
 class Player {
   render() {
     player = createSprite(400, 200);
@@ -46,7 +54,6 @@ class Player {
 
     if (player.position.x < 0) {
       player.position.x = 0;
-      //camera.position.x = player.position.x+200;
     }
     if (player.position.y < 0) {
       player.position.y = 0;
@@ -65,24 +72,48 @@ class Platform {
 
 
 }
+
+class Map {
+  DrawMap() {
+    for (var x = -70; x < 5000; x += 70) {
+      tile_sprite_sheet.drawFrame('stone.png', x, 450);
+      for (var y = 515; y < 800; y += 70) {
+        tile_sprite_sheet.drawFrame('stoneCenter.png', x, y);
+      }
+    }
+    for (var x = -1000; x < -90; x += 70) {
+      for (var y = 0; y < 800; y += 70) {
+        tile_sprite_sheet.drawFrame('stoneCenter.png', x, y);
+      }
+      for(var y = 0; y < 70; y += 70) {
+        tile_sprite_sheet.drawFrame('stone.png', x, y); 
+      }
+    }
+  }
+}
   
 let p = new Player();
 let plat = new Platform();
+let m = new Map();
+
 function setup() {
   createCanvas(800,400);
 
-  p.render();
-  plat.render(400,400);
+  plat.render(400,250);
   plat.render(0,400);
+
+  p.render();
 
   camera.zoom = 0.5;
 }
 
 function draw() {
+  clear();
+  background(255,255,255);
 
   p.movement();
-  
-  background(255,255,255);
+  m.DrawMap();
+
 
   //console.log("PlayerXpos",player.position.x);
   //console.log("PlayerYpos",player.position.y);
