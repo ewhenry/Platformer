@@ -29,11 +29,16 @@ class Player {
   movement() {
     player.velocity.y += GRAVITY;
 
-    if (keyDown('UP') || keyWentDown('SPACE')) {
+    if (keyDown('UP') || keyDown('SPACE')) {
       if (player.collide(platforms) || player.position.y >= Level_H) {
         player.changeAnimation('stretch');
         player.animation.rewind();
         player.velocity.y = -JUMP;
+        if (keyDown('UP') || keyDown('SPACE')) {
+          player.changeAnimation('stretch');
+          player.animation.rewind();
+          player.velocity.y = -JUMP;
+        }
       }
     } else if (player.collide(platforms) || player.position.y >= Level_H) {
         player.velocity.y = 0;
@@ -66,32 +71,39 @@ class Player {
 }
 
 class Platform {
-  render(x, y, v, m) {
-    if (m == false) {
-      platform = createSprite(x, y);
-      platform.addAnimation('normal', 'assets/small_platform0001.png', 'assets/small_platform0003.png');
-    } else {
+  render() {
+    for (var i = 0; i < 100; i ++) {
+      var y = Level_H - (i * 300);
+      var x = (random(0, Level_W));
+
       platform = createSprite(x, y);
       platform.addAnimation('normal', 'assets/small_platform0001.png', 'assets/small_platform0003.png');
 
-      platform.setSpeed(v);
+      platforms.add(platform);
+       /*else {
+        platform = createSprite(x, y);
+        platform.addAnimation('normal', 'assets/small_platform0001.png', 'assets/small_platform0003.png');
+  
+        //platform.setSpeed(v);
+  
+        platforms_moving.add(platform);
+      }*/
+  
     }
-
     //platform.life = 1*(10000-y) + 600;
-    platforms.add(platform);
   }
 
-  moving() {
-    if (platform.position.x < 0) {
-      platform.position.x = 1;
-      platform.velocity.x = abs(platform.velocity.x);
+  /*moving() {
+    if (platforms_moving.position.x < 0) {
+      platforms_moving.position.x = 1;
+      platform.velocity.x = abs(platforms_moving.velocity.x);
     }
 
-    if (platform.position.x > Level_W) {
-      platform.position.x = Level_W-1;
-      platform.velocity.x = -abs(platform.velocity.x);
+    if (platforms_moving.position.x > Level_W) {
+      platforms_moving.position.x = Level_W-1;
+      platforms_moving.velocity.x = -abs(platform.velocity.x);
     }
-  }
+  } */
 }
 
 class Map {
@@ -135,11 +147,10 @@ function setup() {
   p.render(400,10000);
 
   platforms = new Group();
+  platforms_moving = new Group();
   //collectibles = new Group();
 
-  plat.render(600,9900, 0, false);
-  plat.render(200,9800, 10, true);
-  plat.render(400,9500, 0, false);
+  plat.render();
 
   camera.zoom = 0.5;
 }
@@ -151,7 +162,7 @@ function draw() {
   p.movement();
   m.DrawMap();
 
-  plat.moving();
+  //plat.moving();
 
 
   //console.log("PlayerXpos",player.position.x);
