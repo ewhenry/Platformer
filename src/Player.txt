@@ -1,0 +1,110 @@
+package src;
+
+import processing.core.PApplet;
+
+public class Player {
+
+    private PApplet s;
+
+    // CONSTS
+    public final float MaxRun = 90f;
+    public final float RunAccel = 1000f;
+    private final float RunReduce = 400f;
+
+    private final float JumpGraceTime = 0.1f;
+    private final float JumpSpeed = -105f;
+    
+    public final float MaxFall = 160f;
+    private final float Gravity = 900f;
+
+    // VARS
+    public static int x;
+    public static int y;
+
+    private static float RunSpeed;
+    private static float FallSpeed;
+
+    private static float xSave;
+    private static float ySave;
+
+    private static float xRep;
+    private static float yRep;
+
+    public static boolean right = false;
+    public static boolean left = false;
+    public static boolean up = false;
+
+    Player(PApplet s, int x, int y) {
+        this.s = s;
+        this.x = x;
+        this.y = y;
+
+        RunSpeed = 0;
+        xSave = 0;
+        ySave = 0;
+        xRep = 0;
+        yRep = 0;
+    }
+
+    /*
+    boolean place_free(int xx, int yy) {
+      yy = int(floor(yy/16.0));
+      xx = int(floor(xx/16.0));
+      if ( xx > -1 && xx < level[0].length && yy > -1 && yy < level.length ) {
+        if ( level[yy][xx] == 0 ) {
+          return true;
+        }
+      }
+      return false;
+    }
+    */
+
+    void update() {
+        if ( right ) {
+            RunSpeed += RunAccel;
+            if ( RunSpeed > MaxRun ) {
+                RunSpeed = MaxRun;
+            }
+        }
+
+        else if ( left ) {
+            RunSpeed -= RunAccel;
+            if ( RunSpeed < -MaxRun ) {
+                RunSpeed = -MaxRun;
+            }
+        }
+
+        else {
+            if ( RunSpeed > 0 ) {
+                RunSpeed -= RunAccel;
+                if ( RunSpeed < 0 ) {
+                    RunSpeed = 0;
+                }
+            }
+            else if ( RunSpeed < 0 ) {
+                RunSpeed += RunAccel;
+                if ( RunSpeed > 0 ) {
+                    RunSpeed = 0;
+                }
+            }
+        }
+
+        /*if ( UP ) {
+            if ( !place_free(x,y+16) || !place_free(x+15,y+16) ) {
+              FallSpeed = -5.3;
+            }
+          }
+        */
+
+    FallSpeed += Gravity;
+    }
+
+    void Render() {
+        s.push();
+        s.stroke(145);
+        s.strokeWeight(1);
+        s.fill(255);
+        s.rect(x, y, 20, 20);
+        s.pop();
+    }
+}
