@@ -1,8 +1,8 @@
 var GRAVITY = 1;
 var JUMP = 20;
 
-var Level_W = 10000;
-var Level_H = 400;
+var Level_W = 800;
+var Level_H = 10000;
 
 var player, ground, platform;
 
@@ -21,8 +21,8 @@ function preload() {
 }
 
 class Player {
-  render() {
-    player = createSprite(400, 200);
+  render(x, y) {
+    player = createSprite(x, y);
     player.addAnimation('normal', 'assets/asterisk_normal0001.png', 'assets/asterisk_normal0003.png');
     player.addAnimation('stretch', 'assets/asterisk_stretching0001.png', 'assets/asterisk_stretching0008.png');
   }
@@ -30,18 +30,17 @@ class Player {
     player.velocity.y += GRAVITY;
 
     if (keyDown('UP') || keyWentDown('SPACE')) {
-      if (player.collide(platform) || player.position.y >= Level_H) {
+      if (player.collide(platforms) || player.position.y >= Level_H) {
         player.changeAnimation('stretch');
         player.animation.rewind();
         player.velocity.y = -JUMP;
       }
-    } else if (player.collide(platform) || player.position.y >= Level_H) {
+    } else if (player.collide(platforms) || player.position.y >= Level_H) {
         player.velocity.y = 0;
         player.changeAnimation('normal');
         if (player.position.y >= Level_H) {
           player.position.y = Level_H;
         }
-        
     }
 
     if (keyDown('RIGHT')) {
@@ -62,19 +61,24 @@ class Player {
       player.position.x = Level_W;
     }
   }
+  decompose() {
+  }
 }
 
 class Platform {
   render(x, y) {
     platform = createSprite(x, y);
     platform.addAnimation('normal', 'assets/small_platform0001.png', 'assets/small_platform0003.png');
+
+    platforms.add(platform);
   }
 }
 
 class Map {
   DrawMap() {
-    for (var x = -1000; x < -90; x += 70) {
-      for (var y = 0; y < 800; y += 70) {
+    
+    for (var x = -1000; x < -70; x += 70) {
+      for (var y = 0; y < 12140; y += 70) {
         tile_sprite_sheet.drawFrame('stoneCenter.png', x, y);
       }
       for(var y = 0; y < 70; y += 70) {
@@ -82,9 +86,18 @@ class Map {
       }
     }
 
-    for (var x = -140; x < 5000; x += 70) {
-      tile_sprite_sheet.drawFrame('stone.png', x, 450);
-      for (var y = 515; y < 800; y += 70) {
+    for (var x = 800; x < 1800; x += 70) {
+      for (var y = 0; y < 12140; y += 70) {
+        tile_sprite_sheet.drawFrame('stoneCenter.png', x, y);
+      }
+      for(var y = 0; y < 70; y += 70) {
+        tile_sprite_sheet.drawFrame('stone.png', x, y); 
+      }
+    }
+
+    for (var x = -900; x < 1700; x += 70) {
+      tile_sprite_sheet.drawFrame('stone.png', x, 10070);
+      for (var y = 10140; y < 12140; y += 70) {
         tile_sprite_sheet.drawFrame('stoneCenter.png', x, y);
       }
     }
@@ -98,10 +111,15 @@ let m = new Map();
 function setup() {
   createCanvas(800,400);
 
-  plat.render(400,250);
-  plat.render(0,400);
+  //200
+  p.render(400,10000);
 
-  p.render();
+  platforms = new Group();
+  //collectibles = new Group();
+
+  plat.render(600,10000);
+  plat.render(200,9800);
+  plat.render(400,9600);
 
   camera.zoom = 0.5;
 }
