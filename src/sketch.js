@@ -51,7 +51,7 @@ class Player {
         Jumps += 1;
         player.velocity.y = -JUMP;
       }
-    } 
+    }
 
     if (keyDown('RIGHT')) {
       player.velocity.x = 15;
@@ -152,7 +152,6 @@ function setup() {
   p.render(400,10000);
 
   platforms = new Group();
-  platforms_moving = new Group();
 
   plat.render();
 
