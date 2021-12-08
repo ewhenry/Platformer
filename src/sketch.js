@@ -69,8 +69,6 @@ class Platform {
     platform = createSprite(x, y);
     platform.addAnimation('normal', 'assets/small_platform0001.png', 'assets/small_platform0003.png');
   }
-
-
 }
 
 class Map {
