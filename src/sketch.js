@@ -1,5 +1,5 @@
-var GRAVITY = 10;
-var JUMP = 15;
+var GRAVITY = 1;
+var JUMP = 20;
 
 var Level_W = 10000;
 var Level_H = 400;
@@ -14,8 +14,10 @@ function setup() {
 
   player = createSprite(400, 200);
   player.addAnimation('normal', 'assets/asterisk_normal0001.png', 'assets/asterisk_normal0003.png');
-  //player.addAnimation('stretch', 'assets/asterisk_stretching0001.png', 'assets/asterisk_stretching0008.png');
+  player.addAnimation('stretch', 'assets/asterisk_stretching0001.png', 'assets/asterisk_stretching0008.png');
   
+  platform = createSprite(400, 400);
+  platform.addAnimation('normal', 'assets/small_platform0001.png', 'assets/small_platform0003.png')
 }
 
 function draw() {
@@ -23,15 +25,27 @@ function draw() {
   console.log("PlayerXpos",player.position.x);
   console.log("PlayerYpos",player.position.y);
 
+  player.velocity.y += GRAVITY;
+
+  if (player.collide(platform)) {
+    player.velocity.y = 0;
+    player.changeAnimation('normal');
+  }
+
+  if (keyWentDown('UP') || keyWentDown('SPACE') && player.collide(platform)) {
+    player.changeAnimation('stretch');
+    player.animation.rewind();
+    player.velocity.y = -JUMP;
+  }
+
   //player.velocity.x = 1000;
-  //player.velocity.y = 1;
 
   camera.position.x = player.position.x;
   camera.position.y = player.position.y;
 
   if (player.position.x <= 0) {
     player.position.x = 0;
-    camera.position.x = player.position.x+200;
+    //camera.position.x = player.position.x+200;
   }
   if (player.position.y <= 0) {
     player.position.y = 0;
@@ -43,10 +57,5 @@ function draw() {
     player.position.y = Level_H;
   }
 
-  player.position.y += GRAVITY;
-
-  //drawSprites(BG);
-
-  //camera.off();
   drawSprites();
 }
