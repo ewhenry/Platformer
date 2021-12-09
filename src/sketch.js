@@ -26,7 +26,7 @@ class Player {
     player = createSprite(x, y);
 
     player.draw = function() {
-      fill(237,205,0);
+      fill(255,100,0);
 
       push();
       rotate(radians(this.getDirection()));
@@ -42,7 +42,7 @@ class Player {
   movement() {
     player.velocity.y += GRAVITY;
 
-    if (player.collide(platforms) || player.position.y >= Level_H) {
+    if (player.collide(platforms) || player.position.y > Level_H) {
       Jumps = 0;
       player.velocity.y = 0;
     }
@@ -68,7 +68,7 @@ class Player {
       player.position.y = 0;
     }
     if (player.position.y > Level_H) {
-      player.position.y = Level_H;
+      player.position.y = Level_H+20;
     }
     if (player.position.x > Level_W-55) {
       player.position.x = Level_W-55;
