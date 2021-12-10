@@ -37,13 +37,12 @@ class Player {
   }
 
   movement() {
+    player.velocity.y += GRAVITY;
 
     if (player.collide(platforms) || player.position.y > Level_H) {
       Jumps = 0;
-      player.velocity.y = 0;
-    } else {
-      player.velocity.y += GRAVITY;
-    }
+      //player.velocity.y = 0;
+    } 
     if (keyWentDown('UP') || keyWentDown('SPACE')) {
       if (Jumps < 2) {
         Jumps += 1;
@@ -83,7 +82,8 @@ class Platform {
       platform[i] = createSprite(x, y);
       platform[i].addAnimation('normal', 'assets/small_platform0001.png', 'assets/small_platform0003.png');
 
-      //platform.setCollider('rectangle', 0, -30, 200, 0);
+      platform.setCollider('rectangle', 0, -30, 200, 0);
+      platform.setCollider('rectangle', 0, -30, 200, 0);
 
       platform[i].debug = true;
       
@@ -143,7 +143,7 @@ class Map {
 class Finish_Line {
   render() {
     finishLine = createSprite(0, 0);
-    finishLine = addAnimation('assets/finishLine.png');
+    //finishLine = addAnimation('assets/finishLine.png');
   
   }
 
