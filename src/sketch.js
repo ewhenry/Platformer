@@ -45,6 +45,13 @@ class Player {
     if (player.collide(platforms) || player.position.y > Level_H) {
       Jumps = 0;
       player.velocity.y = 0;
+
+      if (keyDown('UP') || keyDown('SPACE')) {
+        if (Jumps < 2) {
+          Jumps += 1;
+          player.velocity.y = -JUMP;
+        }
+      }
     }
     if (keyWentDown('UP') || keyWentDown('SPACE')) {
       if (Jumps < 2) {
@@ -78,12 +85,14 @@ class Player {
 
 class Platform {
   render() {
-    for (var i = 1; i < 80; i ++) {
+    for (var i = 1; i < 60; i ++) {
       var y = Level_H - (i * 300);
       var x = (random(0, Level_W));
 
       platform = createSprite(x, y);
       platform.addAnimation('normal', 'assets/small_platform0001.png', 'assets/small_platform0003.png');
+
+      platform.life = i*90;
 
       platforms.add(platform);
        /*else {
@@ -96,7 +105,6 @@ class Platform {
       }*/
   
     }
-    //platform.life = 1*(10000-y) + 600;
   }
 
   /*moving() {
