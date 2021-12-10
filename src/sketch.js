@@ -1,4 +1,4 @@
-var GRAVITY = 1.5;
+var GRAVITY = 1.55;
 var JUMP = 25;
 
 var Level_W = 800;
@@ -45,13 +45,6 @@ class Player {
     if (player.collide(platforms) || player.position.y > Level_H) {
       Jumps = 0;
       player.velocity.y = 0;
-
-      if (keyDown('UP') || keyDown('SPACE')) {
-        if (Jumps < 2) {
-          Jumps += 1;
-          player.velocity.y = -JUMP;
-        }
-      }
     }
     if (keyWentDown('UP') || keyWentDown('SPACE')) {
       if (Jumps < 2) {
@@ -92,7 +85,11 @@ class Platform {
       platform = createSprite(x, y);
       platform.addAnimation('normal', 'assets/small_platform0001.png', 'assets/small_platform0003.png');
 
-      platform.life = i*90;
+      platform.setCollider('rectangle', 0, -30, 200, 0);
+      //platform.life = i*90;
+
+      platform.debug = true;
+      
 
       platforms.add(platform);
        /*else {
@@ -175,12 +172,13 @@ function draw() {
 
 
   //console.log("PlayerXpos",player.position.x);
-  console.log("PlayerYpos",player.position.y);
-  console.log("Jumps", Jumps);
+  console.log("PlayerYpos",player.velocity.y);
 
 
   camera.position.x = player.position.x;
   camera.position.y = player.position.y;
+
+  player.debug = keyDown('D');
 
   drawSprites();
 }
