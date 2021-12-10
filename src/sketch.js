@@ -1,12 +1,10 @@
 var GRAVITY = 1.55;
-var JUMP = 25;
+var JUMP = 30;
 
 var Level_W = 800;
 var Level_H = 10000;
 
-var player, ground, platform;
-
-var face;
+var player, face, ground, finishLine, platform = [];
 
 var playerImg, BGImg, platfromImg, groundImg;
 
@@ -18,7 +16,6 @@ function preload() {
   });
 
   face = loadImage('assets/face.png');
-  
 }
 
 class Player {
@@ -40,11 +37,12 @@ class Player {
   }
 
   movement() {
-    player.velocity.y += GRAVITY;
 
     if (player.collide(platforms) || player.position.y > Level_H) {
       Jumps = 0;
       player.velocity.y = 0;
+    } else {
+      player.velocity.y += GRAVITY;
     }
     if (keyWentDown('UP') || keyWentDown('SPACE')) {
       if (Jumps < 2) {
@@ -78,29 +76,19 @@ class Player {
 
 class Platform {
   render() {
-    for (var i = 1; i < 60; i ++) {
+    for (var i = 1; i < 33; ++i) {
       var y = Level_H - (i * 300);
       var x = (random(0, Level_W));
 
-      platform = createSprite(x, y);
-      platform.addAnimation('normal', 'assets/small_platform0001.png', 'assets/small_platform0003.png');
+      platform[i] = createSprite(x, y);
+      platform[i].addAnimation('normal', 'assets/small_platform0001.png', 'assets/small_platform0003.png');
 
-      platform.setCollider('rectangle', 0, -30, 200, 0);
-      //platform.life = i*90;
+      //platform.setCollider('rectangle', 0, -30, 200, 0);
 
-      platform.debug = true;
+      platform[i].debug = true;
       
 
-      platforms.add(platform);
-       /*else {
-        platform = createSprite(x, y);
-        platform.addAnimation('normal', 'assets/small_platform0001.png', 'assets/small_platform0003.png');
-  
-        //platform.setSpeed(v);
-  
-        platforms_moving.add(platform);
-      }*/
-  
+      platforms.add(platform[i]);  
     }
   }
 
@@ -116,6 +104,11 @@ class Platform {
     }
   } */
 }
+
+function fall() {
+  background(0);
+}
+
 
 class Map {
   DrawMap() {
@@ -146,15 +139,30 @@ class Map {
     }
   }
 }
+
+class Finish_Line {
+  render() {
+    finishLine = createSprite(0, 0);
+    finishLine = addAnimation('assets/finishLine.png');
+  
+  }
+
+  tag() {
+    Finish.setCollider('rectangle', 0, -30, 200, 0);
+  }
+}
   
 let p = new Player();
 let plat = new Platform();
 let m = new Map();
+let FL = new Finish_Line();
 
 function setup() {
   createCanvas(500,700);
 
-  p.render(400,10000);
+  frameRate(60);
+
+  p.render(400, 200);//10000);
 
   platforms = new Group();
 
@@ -165,14 +173,17 @@ function setup() {
 
 function draw() {
   clear();
-  background(255,255,255);
+  background(90,180,255);
+
+  FL.render();
 
   p.movement();
   m.DrawMap();
 
-
-  //console.log("PlayerXpos",player.position.x);
-  console.log("PlayerYpos",player.velocity.y);
+  platforms[2].collide(player, fall);
+  
+  console.log("PlayerXpos", platforms);
+  //console.log("PlayerYpos",player.velocity.y);
 
 
   camera.position.x = player.position.x;
