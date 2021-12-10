@@ -4,7 +4,7 @@ var JUMP = 30;
 var Level_W = 800;
 var Level_H = 10000;
 
-var player, face, ground, Finish_Line, platform = [], finishLine, platform_hitbox = [], platform_hitboxes;
+var player, face, ground, Finish_Line, platform = [], finishLine, platform_hitbox = [], platform_hitboxes, You_Win_IMG;
 
 var playerImg, BGImg, platfromImg, groundImg;
 
@@ -17,6 +17,7 @@ function preload() {
 
   face = loadImage('assets/face.png');
   Finish_Line_IMG = loadImage('assets/finishLine.png');
+  You_Win_IMG = loadImage('assets/You_Win!.png');
 
 }
 
@@ -81,7 +82,7 @@ class Player {
 
 class Objects {
   Platform_render() {
-    for (var i = 1; i < 33; ++i) {
+    for (var i = 1; i < 32; ++i) {
       var y = Level_H - (i * 300);
       var x = (random(0, Level_W));
 
@@ -93,8 +94,8 @@ class Objects {
       platform[i].setCollider('rectangle', 0, 1, 200, 70);
       platform_hitbox[i].setCollider('rectangle', 0, -35, 200, 0);
 
-      platform[i].debug = true;
-      platform_hitbox[i].debug = true;
+      //platform[i].debug = true;
+      //platform_hitbox[i].debug = true;
       
       platforms.add(platform[i]);
       platform_hitboxes.add(platform_hitbox[i]);
@@ -104,7 +105,13 @@ class Objects {
   Finish_Line_render() {
     Finish_Line = createSprite(400, 0);
     Finish_Line.addImage('normal', Finish_Line_IMG);
-  
+    Finish_Line.addImage('won', You_Win_IMG);
+  }
+
+  Finish_Line_Interact(player) {
+    if (player.collide(Finish_Line)) {
+      Finish_Line.changeImage('won');
+    }
   }
 
   /*moving() {
@@ -119,11 +126,6 @@ class Objects {
     }
   } */
 }
-
-function fall() {
-  background(0);
-}
-
 
 class Map {
   DrawMap() {
@@ -166,7 +168,7 @@ function setup() {
 
   obj.Finish_Line_render();
 
-  p.render(400, 10000);
+  p.render(400, 200);
 
   platforms = new Group();
   platform_hitboxes = new Group();
@@ -181,9 +183,9 @@ function draw() {
   clear();
   background(90,180,255);
 
-  p.movement();
+  obj.Finish_Line_Interact(player);
 
-  platforms[2].collide(player, fall);
+  p.movement();
   
   //console.log("PlayerXpos", platforms);
   //console.log("PlayerYpos",player.velocity.y);
