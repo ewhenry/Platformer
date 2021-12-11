@@ -57,9 +57,6 @@ class Player {
     }
 
     if (keyDown('RIGHT')) {
-      if (player.collide(platforms)) {
-        player.position.x -= 30;
-      }
       player.velocity.x = 15;
     } else if (keyDown('LEFT')) {
       player.velocity.x = -15;
