@@ -4,11 +4,11 @@ var JUMP = 30;
 var Level_W = 800;
 var Level_H = 10000;
 
-var player, face, ground, Finish_Line, platform = [], finishLine, platform_hitbox = [], platform_hitboxes, You_Win_IMG;
+var player, face, ground, Finish_Line, platform = [], finishLine, platform_hitbox = [], platform_hitboxes, Finished = false;
 
-var playerImg, BGImg, platfromImg, groundImg;
+var playerImg, BGImg, platfromImg, groundImg, You_Win_IMG;
 
-var Jumps = 0;
+var Jumps = 0, timerValue = 0;
 
 function preload() {
   loadJSON('assets/tiles.json', function(tile_frames) {
@@ -18,7 +18,6 @@ function preload() {
   face = loadImage('assets/face.png');
   Finish_Line_IMG = loadImage('assets/finishLine.png');
   You_Win_IMG = loadImage('assets/You_Win!.png');
-
 }
 
 class Player {
@@ -58,6 +57,9 @@ class Player {
     }
 
     if (keyDown('RIGHT')) {
+      if (player.collide(platforms)) {
+        player.position.x -= 30;
+      }
       player.velocity.x = 15;
     } else if (keyDown('LEFT')) {
       player.velocity.x = -15;
@@ -110,21 +112,10 @@ class Objects {
 
   Finish_Line_Interact(player) {
     if (player.collide(Finish_Line)) {
+      Finished = true;
       Finish_Line.changeImage('won');
     }
   }
-
-  /*moving() {
-    if (platforms_moving.position.x < 0) {
-      platforms_moving.position.x = 1;
-      platform.velocity.x = abs(platforms_moving.velocity.x);
-    }
-
-    if (platforms_moving.position.x > Level_W) {
-      platforms_moving.position.x = Level_W-1;
-      platforms_moving.velocity.x = -abs(platform.velocity.x);
-    }
-  } */
 }
 
 class Map {
@@ -163,8 +154,13 @@ let m = new Map();
 
 function setup() {
   createCanvas(500,700);
-
+  textAlign(CENTER);
+  textSize(20);
   frameRate(60);
+
+  m.DrawMap();
+
+  setInterval(timeIt, 1000);
 
   obj.Finish_Line_render();
 
@@ -174,10 +170,10 @@ function setup() {
   platform_hitboxes = new Group();
 
   obj.Platform_render();
-  m.DrawMap();
 
   camera.zoom = 0.5;
 }
+
 
 function draw() {
   clear();
@@ -197,4 +193,17 @@ function draw() {
   player.debug = keyDown('D');
 
   drawSprites();
+  
+  push();
+  fill(255, 140);
+  text(timerValue, player.position.x, player.position.y-20);
+  pop();
+}
+
+function timeIt() {
+  if (Finished == false) {
+    if (timerValue >= 0) {
+      timerValue++;
+    }
+  }
 }
