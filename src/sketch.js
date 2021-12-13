@@ -161,7 +161,7 @@ function setup() {
 
   obj.Finish_Line_render();
 
-  p.render(400, 200);
+  p.render(400, 10000);
 
   platforms = new Group();
   platform_hitboxes = new Group();
