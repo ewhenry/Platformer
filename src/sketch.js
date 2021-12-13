@@ -4,7 +4,7 @@ var JUMP = 30;
 var Level_W = 800;
 var Level_H = 10000;
 
-var player, face, ground, Finish_Line, platform = [], finishLine, platform_hitbox = [], platform_hitboxes, Finished = false;
+var player, map, face, ground, Finish_Line, platform = [], finishLine, platform_hitbox = [], platform_hitboxes, Finished = false;
 
 var playerImg, BGImg, platfromImg, groundImg, You_Win_IMG;
 
@@ -117,29 +117,30 @@ class Objects {
 
 class Map {
   DrawMap() {
-    
-    for (var x = -1000; x < -70; x += 70) {
-      for (var y = 0; y < 12140; y += 70) {
-        tile_sprite_sheet.drawFrame('stoneCenter.png', x, y);
+    map.draw = function() {
+      for (var x = -1000; x < -70; x += 70) {
+        for (var y = 0; y < 12140; y += 70) {
+          tile_sprite_sheet.drawFrame('stoneCenter.png', x, y);
+        }
+        for(var y = 0; y < 70; y += 70) {
+          tile_sprite_sheet.drawFrame('stone.png', x, y); 
+        }
       }
-      for(var y = 0; y < 70; y += 70) {
-        tile_sprite_sheet.drawFrame('stone.png', x, y); 
+  
+      for (var x = 800; x < 1800; x += 70) {
+        for (var y = 0; y < 12140; y += 70) {
+          tile_sprite_sheet.drawFrame('stoneCenter.png', x, y);
+        }
+        for(var y = 0; y < 70; y += 70) {
+          tile_sprite_sheet.drawFrame('stone.png', x, y); 
+        }
       }
-    }
-
-    for (var x = 800; x < 1800; x += 70) {
-      for (var y = 0; y < 12140; y += 70) {
-        tile_sprite_sheet.drawFrame('stoneCenter.png', x, y);
-      }
-      for(var y = 0; y < 70; y += 70) {
-        tile_sprite_sheet.drawFrame('stone.png', x, y); 
-      }
-    }
-
-    for (var x = -900; x < 1700; x += 70) {
-      tile_sprite_sheet.drawFrame('stone.png', x, 10070);
-      for (var y = 10140; y < 12140; y += 70) {
-        tile_sprite_sheet.drawFrame('stoneCenter.png', x, y);
+  
+      for (var x = -900; x < 1700; x += 70) {
+        tile_sprite_sheet.drawFrame('stone.png', x, 10070);
+        for (var y = 10140; y < 12140; y += 70) {
+          tile_sprite_sheet.drawFrame('stoneCenter.png', x, y);
+        }
       }
     }
   }
@@ -155,13 +156,13 @@ function setup() {
   textSize(20);
   frameRate(60);
 
-  m.DrawMap();
-
   setInterval(timeIt, 1000);
 
   obj.Finish_Line_render();
 
-  p.render(400, 10000);
+  p.render(400, 20);
+
+  m.DrawMap();
 
   platforms = new Group();
   platform_hitboxes = new Group();
