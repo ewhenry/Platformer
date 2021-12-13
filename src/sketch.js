@@ -117,30 +117,29 @@ class Objects {
 
 class Map {
   DrawMap() {
-    map.draw = function() {
-      for (var x = -1000; x < -70; x += 70) {
-        for (var y = 0; y < 12140; y += 70) {
-          tile_sprite_sheet.drawFrame('stoneCenter.png', x, y);
-        }
-        for(var y = 0; y < 70; y += 70) {
-          tile_sprite_sheet.drawFrame('stone.png', x, y); 
-        }
+    
+    for (var x = -1000; x < -70; x += 70) {
+      for (var y = 0; y < 12140; y += 70) {
+        tile_sprite_sheet.drawFrame('stoneCenter.png', x, y);
       }
-  
-      for (var x = 800; x < 1800; x += 70) {
-        for (var y = 0; y < 12140; y += 70) {
-          tile_sprite_sheet.drawFrame('stoneCenter.png', x, y);
-        }
-        for(var y = 0; y < 70; y += 70) {
-          tile_sprite_sheet.drawFrame('stone.png', x, y); 
-        }
+      for(var y = 0; y < 70; y += 70) {
+        tile_sprite_sheet.drawFrame('stone.png', x, y); 
       }
-  
-      for (var x = -900; x < 1700; x += 70) {
-        tile_sprite_sheet.drawFrame('stone.png', x, 10070);
-        for (var y = 10140; y < 12140; y += 70) {
-          tile_sprite_sheet.drawFrame('stoneCenter.png', x, y);
-        }
+    }
+
+    for (var x = 800; x < 1800; x += 70) {
+      for (var y = 0; y < 12140; y += 70) {
+        tile_sprite_sheet.drawFrame('stoneCenter.png', x, y);
+      }
+      for(var y = 0; y < 70; y += 70) {
+        tile_sprite_sheet.drawFrame('stone.png', x, y); 
+      }
+    }
+
+    for (var x = -900; x < 1700; x += 70) {
+      tile_sprite_sheet.drawFrame('stone.png', x, 10070);
+      for (var y = 10140; y < 12140; y += 70) {
+        tile_sprite_sheet.drawFrame('stoneCenter.png', x, y);
       }
     }
   }
@@ -160,9 +159,7 @@ function setup() {
 
   obj.Finish_Line_render();
 
-  p.render(400, 20);
-
-  m.DrawMap();
+  p.render(400, 10000);
 
   platforms = new Group();
   platform_hitboxes = new Group();
@@ -176,6 +173,8 @@ function setup() {
 function draw() {
   clear();
   background(90,180,255);
+
+  m.DrawMap();
 
   obj.Finish_Line_Interact(player);
 
