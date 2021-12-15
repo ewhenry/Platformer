@@ -34,12 +34,14 @@ class Player {
 
       image(face, this.deltaX*2, this.deltaY*2);
     }
-
-    player.maxSpeed = 30;
   }
 
   movement() {
     player.velocity.y += GRAVITY;
+
+    if (player.velocity.y > 20) {
+      player.velocity.y = 20;
+    }
 
     if (player.collide(platforms)) {
       player.velocity.y = 0;
@@ -84,6 +86,7 @@ class Objects {
     for (var i = 1; i < 32; ++i) {
       var y = Level_H - (i * 300);
       var x = (random(0, Level_W));
+      var m = (random(0,1));
 
       platform[i] = createSprite(x, y);
       platform[i].addAnimation('normal', 'assets/small_platform0001.png', 'assets/small_platform0003.png');
@@ -93,8 +96,7 @@ class Objects {
       platform[i].setCollider('rectangle', 0, 1, 200, 70);
       platform_hitbox[i].setCollider('rectangle', 0, -35, 200, 0);
 
-      //platform[i].debug = true;
-      //platform_hitbox[i].debug = true;
+      
       
       platforms.add(platform[i]);
       platform_hitboxes.add(platform_hitbox[i]);
@@ -155,8 +157,6 @@ function setup() {
   textSize(20);
   frameRate(60);
 
-  m.DrawMap();
-
   setInterval(timeIt, 1000);
 
   obj.Finish_Line_render();
@@ -175,6 +175,7 @@ function setup() {
 function draw() {
   clear();
   background(90,180,255);
+  
 
   obj.Finish_Line_Interact(player);
 
