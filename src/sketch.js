@@ -4,7 +4,7 @@ var JUMP = 30;
 var Level_W = 800;
 var Level_H = 10000;
 
-var player, face, ground, Finish_Line, platform = [], finishLine, platform_hitbox = [], platform_hitboxes, Finished = false;
+var player, map, face, ground, Finish_Line, platform = [], finishLine, platform_hitbox = [], platform_hitboxes, Finished = false;
 
 var playerImg, BGImg, platfromImg, groundImg, You_Win_IMG;
 
@@ -161,7 +161,7 @@ function setup() {
 
   obj.Finish_Line_render();
 
-  p.render(400, 200);
+  p.render(400, 10000);
 
   platforms = new Group();
   platform_hitboxes = new Group();
@@ -176,6 +176,8 @@ function draw() {
   clear();
   background(90,180,255);
   
+
+  m.DrawMap();
 
   obj.Finish_Line_Interact(player);
 
