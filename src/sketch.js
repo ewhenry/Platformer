@@ -92,14 +92,36 @@ class Objects {
       platform[i].addAnimation('normal', 'assets/small_platform0001.png', 'assets/small_platform0003.png');
       platform_hitbox[i] = createSprite(x, y);
       platform_hitbox[i].addAnimation('normal', 'assets/small_platform0001.png', 'assets/small_platform0003.png');
+      
+      platform[i].velocity.x = 10;
+      platform_hitbox[i].velocity.x = 10;
 
       platform[i].setCollider('rectangle', 0, 1, 200, 70);
       platform_hitbox[i].setCollider('rectangle', 0, -35, 200, 0);
 
-      
-      
       platforms.add(platform[i]);
       platform_hitboxes.add(platform_hitbox[i]);
+    }
+  }
+
+  CheckEdges() {
+    for (var i = 1; i < 32; ++i) {
+      if (player.collide(platform[i])) {
+        platform[i].velocity.x = 0;
+        platform_hitbox[i].velocity.x = 0;
+      }       
+      else {
+        platform[i].velocity.x = 10;
+        platform_hitbox[i].velocity.x = 10;
+      }
+      if (platform[i].position.x > Level_W) {
+        platform[i].velocity.x = -10;
+        platform_hitbox[i].velocity.x = -10;
+      }
+      else if (platform[i].position.x < 0) {
+        platform[i].velocity.x = 10;
+        platform_hitbox[i].velocity.x = 10;
+      }
     }
   }
 
@@ -175,11 +197,10 @@ function setup() {
 function draw() {
   clear();
   background(90,180,255);
-  
 
-  m.DrawMap();
 
   obj.Finish_Line_Interact(player);
+  obj.CheckEdges();
 
   p.movement();
   
