@@ -105,20 +105,12 @@ class Objects {
   }
 
   CheckEdges() {
-    for (var i = 1; i < 32; ++i) {
-      if (player.collide(platform[i])) {
-        platform[i].velocity.x = 0;
-        platform_hitbox[i].velocity.x = 0;
-      }       
-      else {
-        platform[i].velocity.x = 10;
-        platform_hitbox[i].velocity.x = 10;
-      }
+    for (var i = 1; i < 32; ++i) { 
       if (platform[i].position.x > Level_W) {
         platform[i].velocity.x = -10;
         platform_hitbox[i].velocity.x = -10;
       }
-      else if (platform[i].position.x < 0) {
+      if (platform[i].position.x < 0) {
         platform[i].velocity.x = 10;
         platform_hitbox[i].velocity.x = 10;
       }
@@ -126,7 +118,7 @@ class Objects {
   }
 
   Finish_Line_render() {
-    Finish_Line = createSprite(400, 0);
+    Finish_Line = createSprite(400, 150);
     Finish_Line.addImage('normal', Finish_Line_IMG);
     Finish_Line.addImage('won', You_Win_IMG);
   }
@@ -214,6 +206,8 @@ function draw() {
   player.debug = keyDown('D');
 
   drawSprites();
+
+  m.DrawMap();
   
   push();
   fill(255, 140);
